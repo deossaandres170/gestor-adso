@@ -25,3 +25,43 @@ php -v
 composer -V
 php artisan --version
 git --version
+
+# Gestor ADSO - Sistema de Gestión de Proyectos
+
+Proyecto desarrollado en el marco de la formación ADSO (Análisis y Desarrollo de Software - SENA).
+
+## Requisitos del Sistema
+- PHP 8.2+
+- Composer 2.x
+- MariaDB / MySQL (XAMPP)
+- Laravel 12
+
+## Instalación y Configuración Local
+1. Clonar el repositorio:
+
+bash
+git clone https://github.com/deossaandres170/gestor-adso.git
+
+2. Instalar dependencias:
+
+bash
+composer install
+
+3. Configurar el archivo `.env`:
+
+bash
+cp .env.example .env
+php artisan key:generate
+
+4. Ejecutar migraciones:
+
+bash
+php artisan migrate
+
+5. Iniciar el servidor local:
+
+bash
+php artisan serve
+
+## Repositorio Oficial
+- GitHub: https://github.com/deossaandres170/gestor-adso

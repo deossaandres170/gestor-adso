@@ -2,63 +2,79 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Proyecto;
 use Illuminate\Http\Request;
 
 class ProyectoController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Muestra el listado de todos los proyectos (Diapositivas 29-31)
      */
     public function index()
     {
-        //
+        $proyectos = Proyecto::all();
+        return view('proyectos.index', compact('proyectos'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Muestra el formulario para registrar un nuevo proyecto (Diapositiva 32)
      */
     public function create()
     {
-        //
+        return view('proyectos.create');
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Valida los datos y guarda un nuevo proyecto en MariaDB (Diapositivas 33-34)
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nombre' => 'required|max:255',
+            'descripcion' => 'nullable|string',
+        ]);
+
+        Proyecto::create($request->all());
+
+        return redirect()->route('proyectos.index')
+                         ->with('success', 'Proyecto creado exitosamente.');
     }
 
     /**
-     * Display the specified resource.
+     * Muestra el formulario para editar un proyecto existente (Diapositiva 35)
      */
-    public function show(string $id)
+    public function edit($id)
     {
-        //
+        $proyecto = Proyecto::findOrFail($id);
+        return view('proyectos.edit', compact('proyecto'));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Actualiza la información de un proyecto en MariaDB (Diapositiva 36)
      */
-    public function edit(string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'nombre' => 'required|max:255',
+            'descripcion' => 'nullable|string',
+        ]);
+
+        $proyecto = Proyecto::findOrFail($id);
+        $proyecto->update($request->all());
+
+        return redirect()->route('proyectos.index')
+                         ->with('success', 'Proyecto actualizado exitosamente.');
     }
 
     /**
-     * Update the specified resource in storage.
+     * Elimina un proyecto de la base de datos (Diapositiva 37)
      */
-    public function update(Request $request, string $id)
+    public function destroy($id)
     {
-        //
-    }
+        $proyecto = Proyecto::findOrFail($id);
+        $proyecto->delete();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return redirect()->route('proyectos.index')
+                         ->with('success', 'Proyecto eliminado exitosamente.');
     }
 }
